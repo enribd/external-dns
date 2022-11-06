@@ -29,6 +29,7 @@ import (
 	"k8s.io/apimachinery/pkg/labels"
 	_ "k8s.io/client-go/plugin/pkg/client/auth"
 
+	"github.com/enribd/external-dns-provider-freedns"
 	"sigs.k8s.io/external-dns/controller"
 	"sigs.k8s.io/external-dns/endpoint"
 	"sigs.k8s.io/external-dns/pkg/apis/externaldns"
@@ -340,6 +341,8 @@ func main() {
 		p, err = plural.NewPluralProvider(cfg.PluralCluster, cfg.PluralProvider)
 	case "tencentcloud":
 		p, err = tencentcloud.NewTencentCloudProvider(domainFilter, zoneIDFilter, cfg.TencentCloudConfigFile, cfg.TencentCloudZoneType, cfg.DryRun)
+	case "freedns":
+		p, err = freedns.NewFreeDNSProvider(domainFilter, cfg.DryRun)
 	default:
 		log.Fatalf("unknown dns provider: %s", cfg.Provider)
 	}
